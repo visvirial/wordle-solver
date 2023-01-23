@@ -1,0 +1,14 @@
+{
+  "name": "wordle-solver",
+  "version": "0.0.1",
+  "description": "Wordle solver",
+  "scripts": {
+    "interactive-solver": "ts-node ./scripts/interactive-solver.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Vis Virial <visvirial@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "ts-node": "^10.9.1"
+  }
+}
