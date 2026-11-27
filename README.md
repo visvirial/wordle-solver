@@ -47,3 +47,16 @@ The answer is ELUDE. Congrats!
 
 
 
+
+### Web Frontend
+
+A browser UI (vanilla TypeScript + Vite) lives in `web/`. The solver runs in a Web Worker and gives the same suggestions as the CLI.
+
+```bash
+$ npm run web:dev      # development server
+$ npm run web:build    # type-check and build into dist/
+$ npm run web:preview  # serve the built app
+$ npm run web:test     # engine/UI unit tests (incl. parity with the CLI solver)
+```
+
+Type or accept the suggested word, click tiles to cycle gray → yellow → green (or press 1/2/3), then submit.
