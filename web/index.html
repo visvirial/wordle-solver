@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light dark" />
+  <meta name="description" content="Wordle Solver: an assistant that suggests the next guess with a minimax strategy." />
+  <title>Wordle Solver</title>
+</head>
+<body>
+  <a class="skip-link" href="#board">Skip to board</a>
+  <header class="app-header">
+    <h1 class="app-title">Wordle Solver</h1>
+    <div class="header-controls">
+      <label class="dict-label">
+        <span class="visually-hidden">Dictionary</span>
+        <select id="dictionary" aria-label="Dictionary">
+          <option value="wordle-5" data-short="Answers (2,309)">Wordle answers (2,309)</option>
+          <option value="words-5" data-short="All words (12,971)">All 5-letter words (12,971)</option>
+        </select>
+      </label>
+      <button type="button" id="undo" class="btn btn-ghost" title="Undo last guess">Undo</button>
+      <button type="button" id="reset" class="btn btn-ghost" title="Start over">Reset</button>
+    </div>
+  </header>
+
+  <main class="app-main">
+    <details class="help" id="help">
+      <summary>How to use</summary>
+      <div class="help-body">
+        <ol>
+          <li>The solver prefills the active row with its suggested guess. Enter it in your Wordle game, or type a different 5-letter word.</li>
+          <li>Tell the solver what the game showed: click or tap a tile to cycle
+            <span class="chip chip-w">gray</span> &rarr; <span class="chip chip-y">yellow</span> &rarr; <span class="chip chip-g">green</span>.
+            Keyboard: <kbd>1</kbd> gray, <kbd>2</kbd> yellow, <kbd>3</kbd> green (fills tiles left to right), <kbd>&larr;</kbd>/<kbd>&rarr;</kbd> move the cursor.</li>
+          <li>Press <strong>Submit feedback</strong> (or <kbd>Enter</kbd>). The remaining candidates and the next suggestion appear.</li>
+          <li>Code: <code>@</code> green, <code>+</code> yellow, <code>_</code> gray &mdash; the same notation as the CLI.</li>
+        </ol>
+        <p class="help-ja" lang="ja">提案された単語を入力し、結果の色をタイルをクリックして設定し「Submit feedback」を押すと、次の最適な単語を提案します。</p>
+      </div>
+    </details>
+
+    <section class="board-section" aria-label="Guesses">
+      <div id="board" class="board" tabindex="-1"></div>
+      <p id="row-code" class="row-code" aria-hidden="true"></p>
+      <p id="inline-error" class="inline-error" role="alert"></p>
+      <div class="feedback-actions">
+        <button type="button" id="all-gray" class="btn btn-small">All gray</button>
+        <button type="button" id="all-green" class="btn btn-small">Solved (all green)</button>
+        <button type="button" id="use-suggestion" class="btn btn-small btn-ghost" hidden>Use suggestion</button>
+      </div>
+      <button type="button" id="submit" class="btn btn-primary btn-submit">Submit feedback</button>
+    </section>
+
+    <section id="solved-panel" class="solved-panel" hidden aria-labelledby="solved-title">
+      <h2 id="solved-title">Solved!</h2>
+      <p id="solved-text"></p>
+      <button type="button" id="new-game" class="btn btn-primary">New game</button>
+    </section>
+
+    <div id="keyboard" class="keyboard" role="group" aria-label="On-screen keyboard"></div>
+
+    <section class="info-grid">
+      <div class="card" aria-labelledby="suggest-title">
+        <h2 id="suggest-title" class="card-title">Suggestion</h2>
+        <dl id="suggestion-details" class="details"></dl>
+      </div>
+      <div class="card" aria-labelledby="cand-title">
+        <h2 id="cand-title" class="card-title">Candidates <span id="cand-count" class="badge">–</span></h2>
+        <ul id="candidates" class="candidates" aria-label="Remaining candidates"></ul>
+        <p id="cand-more" class="muted"></p>
+      </div>
+    </section>
+  </main>
+
+  <p id="status" class="visually-hidden" aria-live="polite" aria-atomic="true"></p>
+  <div id="toast" class="toast" role="alert" aria-live="assertive" hidden></div>
+
+  <footer class="app-footer muted">Minimax solver running in a Web Worker. Feedback rules match the CLI.</footer>
+  <script type="module" src="./src/main.ts"></script>
+</body>
+</html>
